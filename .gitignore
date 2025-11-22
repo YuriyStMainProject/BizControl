@@ -1,0 +1,17 @@
+# VS/IDE
+.vs/
+*.user
+
+# Build artifacts
+**/bin/
+**/obj/
+
+# Rider / інші IDE (можеш додати пізніше за потреби)
+*.suo
+*.sln.docstates
+
+# Copilot / кеші
+**/CopilotIndices/
+
+# Тимчасові SQLite файли від VS
+*.sqlite
