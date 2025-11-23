@@ -1,4 +1,3 @@
-
 using BizControl.Application;
 using BizControl.Infrastructure;
 using BizControl.Infrastructure.Persistence;
@@ -11,6 +10,17 @@ namespace BizControl.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowClient",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200") // Angular
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
 
             // базові сервіси
             builder.Services.AddControllers();
@@ -36,14 +46,18 @@ namespace BizControl.Api
                 }
             }
 
+            // Swagger
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
-            app.MapControllers();
+            app.UseCors("AllowClient"); // Включаємо CORS
+
+            app.UseHttpsRedirection(); // API може використовувати HTTPS
+            app.UseAuthorization(); // авторизація, якщо потрібна буде
+            app.MapControllers(); // Маршрути
             app.Run();
         }
     }

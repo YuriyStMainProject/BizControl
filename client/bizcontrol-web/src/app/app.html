@@ -1,0 +1,42 @@
+<h1>{{ title }}</h1>
+
+<p>DEBUG info</p>
+<pre>
+loading: {{ loading() }}
+error: {{ error() }}
+products.length: {{ products().length }}
+products: {{ products() | json }}
+</pre>
+
+<button (click)="loadProducts()">Оновити</button>
+
+@if (loading()) {
+  <p>Завантаження...</p>
+}
+
+@if (error()) {
+  <p style="color: red">{{ error() }}</p>
+}
+
+@if (!loading() && !error() && products().length === 0) {
+  <p>Немає товарів</p>
+}
+
+@if (!loading() && !error() && products().length > 0) {
+  <table border="1" cellpadding="4">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Назва</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of products(); track p.id) {
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.name }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
