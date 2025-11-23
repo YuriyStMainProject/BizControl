@@ -1,4 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BizControl.Application.Common.Interfaces;
+using BizControl.Application.Products;
+using BizControl.Infrastructure.Persistence;
+using BizControl.Infrastructure.Persistence.Repositories;
+using BizControl.Infrastructure.Products;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BizControl.Infrastructure
@@ -9,9 +15,18 @@ namespace BizControl.Infrastructure
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            // var conn = configuration.GetConnectionString("Default");
-            // services.AddDbContext<BizControlDbContext>(...);
-            // services.AddScoped<IProductRepository, ProductRepository>();
+            var connectionString = configuration.GetConnectionString("Default");
+            services.AddDbContext<BizControlDbContext>(options =>
+            {
+                options.UseNpgsql(connectionString);
+            });
+
+            // generic-репозиторій
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+            // generic CRUD-сервіс
+            services.AddScoped<IProductService, ProductService>();
+
             return services;
         }
     }

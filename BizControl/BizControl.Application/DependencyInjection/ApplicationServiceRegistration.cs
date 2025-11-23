@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace BizControl.Application
 {
@@ -6,10 +7,12 @@ namespace BizControl.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            // services.AddMediatR(...);
-            // services.AddValidatorsFromAssembly(...);
+            services.AddAutoMapper(
+                cfg => { },                      // пустий конфіг, нічого не робимо
+                Assembly.GetExecutingAssembly()  // де лежать наші Profile
+            );
+
             return services;
         }
     }
 }
- 
