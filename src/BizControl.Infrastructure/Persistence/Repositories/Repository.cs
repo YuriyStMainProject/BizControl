@@ -1,22 +1,18 @@
 ﻿using BizControl.Application.Common.Interfaces;
-using BizControl.Domain.Common;
+using BizControl.Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace BizControl.Infrastructure.Persistence.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity>
-    where TEntity : BaseEntity
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
         private readonly BizControlDbContext _db;
 
-        public Repository(BizControlDbContext db)
-        {
-            _db = db;
-        }
+        public Repository(BizControlDbContext db) => _db = db;
 
-        public async Task<TEntity?> GetByIdAsync(long id) => await _db.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<TEntity?> GetByIdAsync(long id) => await _db.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<List<TEntity>> GetAllAsync() => await _db.Set<TEntity>().ToListAsync();
+        public async Task<List<TEntity>> GetAllAsync() => await _db.Set<TEntity>().AsNoTracking().ToListAsync();
 
         public async Task AddAsync(TEntity entity)
         {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BizControl.Domain.Common
+namespace BizControl.Domain.Entities.Base
 {
     public abstract class BaseEntity
     {

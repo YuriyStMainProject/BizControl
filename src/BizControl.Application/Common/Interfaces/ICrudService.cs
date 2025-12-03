@@ -1,4 +1,4 @@
-﻿using BizControl.Domain.Common;
+﻿using BizControl.Domain.Entities.Base;
 
 namespace BizControl.Application.Common.Interfaces
 {

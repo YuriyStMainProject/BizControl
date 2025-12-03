@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BizControl.Application.Common.Interfaces;
-using BizControl.Domain.Common;
+using BizControl.Domain.Entities.Base;
 
 namespace BizControl.Application.Common.Services
 {

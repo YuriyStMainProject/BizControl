@@ -1,0 +1,7 @@
+<Project>
+	<PropertyGroup>
+		<EFProject>src/BizControl.Infrastructure</EFProject>
+		<EFStartupProject>src/BizControl.Api</EFStartupProject>
+		<EFMigrationsDir>Data/Migrations</EFMigrationsDir>
+	</PropertyGroup>
+</Project>
