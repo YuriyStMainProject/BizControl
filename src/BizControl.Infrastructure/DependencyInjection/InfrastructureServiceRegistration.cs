@@ -17,8 +17,8 @@ namespace BizControl.Infrastructure
             services.AddDbContext<BizControlDbContext>(options =>
             {
                 options
-                .UseNpgsql(connectionString)
-                .UseSnakeCaseNamingConvention(); // нижній регістр усіх таблиць, типу OrderDetail буде виглядати як blog_post
+                .UseNpgsql(connectionString);
+                // .UseSnakeCaseNamingConvention(); // нижній регістр усіх таблиць, типу OrderDetail буде виглядати як blog_post - в net 10 ше немає цього
             });
 
             // generic-репозиторій

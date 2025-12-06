@@ -1,3 +1,4 @@
+п»їusing BizControl.Api.DependencyInjection;
 using BizControl.Application;
 using BizControl.Infrastructure;
 using BizControl.Infrastructure.Persistence;
@@ -11,53 +12,31 @@ namespace BizControl.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowClient",
-                    policy =>
-                    {
-                        policy.WithOrigins("http://localhost:4200") // Angular
-                              .AllowAnyHeader()
-                              .AllowAnyMethod();
-                    });
-            });
+            builder.Services.AddCorsPolicies();
 
-            // базові сервіси
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerDocs();
 
-            // підключаємо наші шари
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
 
             var app = builder.Build();
 
-            using (var scope = app.Services.CreateScope())
-            {
-                try
-                {
-                    var db = scope.ServiceProvider.GetRequiredService<BizControlDbContext>();
-                    db.Database.Migrate();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Migration error: " + ex.Message);
-                }
-            }
+            app.MigrateDatabase<BizControlDbContext>();
 
-            // Swagger
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowClient"); // Включаємо CORS
+            app.UseCors("AllowClient");
 
-            app.UseHttpsRedirection(); // API може використовувати HTTPS
-            app.UseAuthorization(); // авторизація, якщо потрібна буде
-            app.MapControllers(); // Маршрути
+            app.UseHttpsRedirection();
+            app.UseAuthorization();
+            app.MapControllers();
+
             app.Run();
         }
     }
